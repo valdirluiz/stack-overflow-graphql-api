@@ -1,0 +1,1 @@
+http://localhost:3000/user?query={users(id:1){id,name,age,knowledge{language,frameworks}}}

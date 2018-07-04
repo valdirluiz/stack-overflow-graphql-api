@@ -2,15 +2,15 @@ const graphql = require('graphql')
 const users = require('./users.json')
 
 let knowledgeType = new graphql.GraphQLObjectType({
-	name:'Knowledge',
+	name: 'Knowledge',
 	fields: {
 		language: { type: graphql.GraphQLString },
-		frameworks: { type: new graphql.GraphQLList(graphql.GraphQLString ) }
+		frameworks: { type: new graphql.GraphQLList(graphql.GraphQLString) }
 	}
 })
 
 let userType = new graphql.GraphQLObjectType({
-  	name: 'User',
+	name: 'User',
 	fields: {
 		id: { type: new graphql.GraphQLNonNull(graphql.GraphQLInt) },
 		name: { type: new graphql.GraphQLNonNull(graphql.GraphQLString) },
@@ -23,19 +23,36 @@ let userType = new graphql.GraphQLObjectType({
 	}
 })
 
+
+
 let schema = new graphql.GraphQLSchema({
 	query: new graphql.GraphQLObjectType({
-	    	name: 'Query',
-	    	fields: {
+		name: 'Query',
+		fields: {
 			user: {
 				type: userType,
 				args: {
-				  id:{
-				    type: graphql.GraphQLInt
-				  }
+					id: {
+						type: graphql.GraphQLInt
+					}
 				},
-				resolve: function (_ , args) {
-					let response = users.find(function (user){
+				resolve: function (_, args) {
+					let response = users.find(function (user) {
+						return (user.id === args.id)
+					})
+					return response
+				}
+			},
+			users: {
+				type: new graphql.GraphQLList(userType),
+				type: userType,
+				args: {
+					id: {
+						type: graphql.GraphQLInt
+					}
+				},
+				resolve: function (_, args) {
+					let response = users.find(function (user) {
 						return (user.id === args.id)
 					})
 					return response
