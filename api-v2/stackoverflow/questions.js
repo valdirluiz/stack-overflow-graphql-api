@@ -7,7 +7,7 @@ let questionType = new graphql.GraphQLObjectType({
     fields: {
         question_id: { type: new graphql.GraphQLNonNull(graphql.GraphQLInt) },
         link: { type: graphql.GraphQLString },
-        display_name: { type: graphql.GraphQLInt }
+        display_name: { type: graphql.GraphQLString }
     }
 })
 
@@ -41,7 +41,6 @@ let schema = new graphql.GraphQLSchema({
         fields: {
             questions: {
                 type: new graphql.GraphQLList(questionType),
-                type: questionType,
                 args: {
                     id: {
                         type: graphql.GraphQLInt
@@ -50,9 +49,9 @@ let schema = new graphql.GraphQLSchema({
                 resolve: async function (_, args) {
                     let response = await get().then(function(response) { 
                         return JSON.parse(response.raw_body);
-                    }); 
-                    console.log(response.items[0].link);
-                    return response.items;
+                    });  
+                   
+                   return response.items;
                 }
             }
         }
