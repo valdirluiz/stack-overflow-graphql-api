@@ -7,7 +7,7 @@ let questionType = new graphql.GraphQLObjectType({
     fields: {
         question_id: { type: new graphql.GraphQLNonNull(graphql.GraphQLInt) },
         link: { type: graphql.GraphQLString },
-        display_name: { type: graphql.GraphQLString }
+        title: { type: graphql.GraphQLString }
     }
 })
 
