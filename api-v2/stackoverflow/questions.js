@@ -7,18 +7,20 @@ let questionType = new graphql.GraphQLObjectType({
     fields: {
         question_id: { type: new graphql.GraphQLNonNull(graphql.GraphQLInt) },
         link: { type: graphql.GraphQLString },
-        title: { type: graphql.GraphQLString }
+        title: { type: graphql.GraphQLString },
+        is_answered : {type: graphql.GraphQLBoolean},
+        score : {type: graphql.GraphQLInt},
+        tags: { type: new graphql.GraphQLList(graphql.GraphQLString) }
     }
 })
 
 
 let  get = function () {
 
-    let req = unirest("GET", "https://api.stackexchange.com/2.2/questions");
-    req.query({
+    let req = unirest("GET", "https://api.stackexchange.com/2.2/questions").query({
         "order": "desc",
         "sort": "activity",
-        "tag": "JavaScript",
+        "tagged": "JavaScript",
         "site": "stackoverflow"
     });
 
@@ -32,7 +34,7 @@ let  get = function () {
             }
         })
     });
-}
+};
 
 
 let schema = new graphql.GraphQLSchema({
@@ -56,6 +58,6 @@ let schema = new graphql.GraphQLSchema({
             }
         }
     })
-})
+});
 
-module.exports = schema
+module.exports = schema;
