@@ -64,11 +64,10 @@ let schema = new graphql.GraphQLSchema({
                     }
                 },
                 resolve: async function (_, args) {
-                    console.log("args", args);
+                    console.log("request with args", args);
                     let response = await get(args).then(function(response) { 
                         return JSON.parse(response.raw_body);
-                    });  
-                   console.log(response);
+                    });   
                    return response.items;
                 }
             }
